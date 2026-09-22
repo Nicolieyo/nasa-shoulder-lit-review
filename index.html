@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="A curated literature library for sEMG and IMU shoulder-movement research.">
+  <meta name="theme-color" content="#8f6a86">
+  <title>Shoulder Movement Research Library</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="data.js" defer></script>
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#library">Skip to the article library</a>
+
+  <header class="hero">
+    <div class="petals petals-left" aria-hidden="true"></div>
+    <div class="petals petals-right" aria-hidden="true"></div>
+    <nav class="nav shell" aria-label="Main navigation">
+      <a class="brand" href="#top" aria-label="Research library home">
+        <span class="brand-mark" aria-hidden="true">✿</span>
+        <span>Research Library</span>
+      </a>
+      <div class="nav-links">
+        <a href="#library">Articles</a>
+        <a href="#methods">Methods</a>
+        <a href="#about">About</a>
+      </div>
+    </nav>
+
+    <div class="hero-content shell" id="top">
+      <p class="eyebrow">NASA-INSGC · Purdue University Northwest</p>
+      <h1>Shoulder Movement<br><em>Research Library</em></h1>
+      <p class="hero-copy">A curated collection exploring sEMG, inertial sensing, shoulder-movement classification, muscle activation, fatigue, and ergonomic risk assessment.</p>
+      <div class="hero-actions">
+        <a class="button button-primary" href="#library">Explore the articles</a>
+        <a class="button button-secondary" href="#methods">View ergonomic methods</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="stats shell" aria-label="Library summary">
+      <article><strong id="article-count">30</strong><span>peer-reviewed articles</span></article>
+      <article><strong id="priority-count">14</strong><span>read-first selections</span></article>
+      <article><strong id="access-count">29</strong><span>open-access sources</span></article>
+      <article><strong>4</strong><span>research themes</span></article>
+    </section>
+
+    <section class="library-section shell" id="library">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">Curated evidence</p>
+          <h2>Literature library</h2>
+        </div>
+        <p>Search the full collection or filter it by topic. Your “read” selections are saved privately in this browser.</p>
+      </div>
+
+      <div class="control-panel" aria-label="Article filters">
+        <label class="search-field">
+          <span class="sr-only">Search articles</span>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m21 21-4.35-4.35m2.35-5.65a8 8 0 1 1-16 0 8 8 0 0 1 16 0Z"/></svg>
+          <input id="search" type="search" placeholder="Search title, author, method, or keyword…" autocomplete="off">
+        </label>
+        <label>
+          <span>Topic</span>
+          <select id="theme-filter"><option value="all">All topics</option></select>
+        </label>
+        <label>
+          <span>Priority</span>
+          <select id="priority-filter">
+            <option value="all">All priorities</option>
+            <option value="A">Read first</option>
+            <option value="B">Strong support</option>
+            <option value="C">Background</option>
+          </select>
+        </label>
+        <label>
+          <span>Sort</span>
+          <select id="sort-filter">
+            <option value="priority">Priority</option>
+            <option value="newest">Newest first</option>
+            <option value="oldest">Oldest first</option>
+            <option value="title">Title A–Z</option>
+          </select>
+        </label>
+      </div>
+
+      <div class="results-bar">
+        <p><strong id="results-count">30</strong> articles shown</p>
+        <button class="text-button" id="clear-filters" type="button">Clear filters</button>
+      </div>
+
+      <div class="article-grid" id="article-grid" aria-live="polite"></div>
+      <div class="empty-state" id="empty-state" hidden>
+        <span aria-hidden="true">❀</span>
+        <h3>No articles matched that search</h3>
+        <p>Try a broader keyword or clear the filters.</p>
+      </div>
+    </section>
+
+    <section class="methods-section" id="methods">
+      <div class="shell">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Assessment framework</p>
+            <h2>Methods and guidance</h2>
+          </div>
+          <p>These sources connect wearable measurements with established ergonomic screening approaches.</p>
+        </div>
+        <div class="method-note">
+          <span aria-hidden="true">✦</span>
+          <p><strong>Important distinction:</strong> RULA and REBA are observational screening tools. They complement—but do not replace—sEMG measures of muscle activation and fatigue or IMU measures of movement.</p>
+        </div>
+        <div class="method-grid" id="method-grid"></div>
+      </div>
+    </section>
+
+    <section class="about-section shell" id="about">
+      <div class="about-card">
+        <div>
+          <p class="eyebrow">About this collection</p>
+          <h2>Built for focused, transparent research</h2>
+        </div>
+        <div class="about-copy">
+          <p>This library supports research on predictive modeling of standardized shoulder movements using surface electromyography and inertial measurement units.</p>
+          <p>The collection emphasizes scaption, abduction, internal and external rotation, sensor placement, signal processing, muscle fatigue, and automated ergonomic assessment.</p>
+          <p class="privacy-note">This public site contains published literature only. It does not contain participant information, consent materials, or raw research data.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="shell footer-inner">
+      <p><strong>Shoulder Movement Research Library</strong><br>Curated by Nicole Floyd</p>
+      <p>NASA-INSGC research · Purdue University Northwest</p>
+    </div>
+  </footer>
+
+  <template id="article-template">
+    <article class="article-card">
+      <div class="card-topline">
+        <span class="priority-badge"></span>
+        <label class="read-toggle"><input type="checkbox"><span>Mark as read</span></label>
+      </div>
+      <p class="article-theme"></p>
+      <h3></h3>
+      <p class="article-citation"></p>
+      <div class="article-details">
+        <div><span>Approach</span><p class="article-evidence"></p></div>
+        <div><span>Sensors & methods</span><p class="article-method"></p></div>
+      </div>
+      <div class="relevance"><span>Why it matters</span><p></p></div>
+      <div class="card-footer">
+        <span class="access-badge"></span>
+        <a class="article-link" target="_blank" rel="noopener noreferrer">Open article <span aria-hidden="true">↗</span></a>
+      </div>
+    </article>
+  </template>
+</body>
+</html>
