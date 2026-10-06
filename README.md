@@ -6,6 +6,9 @@ A responsive literature-review website for Nicole Floyd's NASA-INSGC shoulder-mo
 
 - 30 peer-reviewed articles on sEMG, IMUs, shoulder-movement classification, muscle activation, fatigue, and ergonomic assessment
 - Search, topic filters, priority filters, and sorting
+- Card and seven-column literature-review matrix views
+- Professor-requested objective, methods/tools, significance, limit/gap, highlights, and keyword fields
+- One-click CSV download of the currently filtered matrix
 - Direct DOI and publisher links
 - Personal “mark as read” tracking saved locally in the visitor's browser
 - Foundational RULA, REBA, Strain Index, OWAS, NIOSH, and OSHA resources
@@ -16,7 +19,7 @@ A responsive literature-review website for Nicole Floyd's NASA-INSGC shoulder-mo
 - `index.html` — page structure and content
 - `styles.css` — colors, layout, responsive styling, and floral details
 - `data.js` — article and guidance data
-- `app.js` — search, filters, sorting, cards, and reading progress
+- `app.js` — search, filters, sorting, cards, review matrix, CSV export, and reading progress
 
 ## Publish with GitHub Pages
 

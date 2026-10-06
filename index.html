@@ -88,10 +88,40 @@
 
       <div class="results-bar">
         <p><strong id="results-count">30</strong> articles shown</p>
-        <button class="text-button" id="clear-filters" type="button">Clear filters</button>
+        <div class="results-actions">
+          <div class="view-switcher" role="group" aria-label="Choose article display">
+            <button class="view-button is-active" id="card-view-button" type="button" aria-pressed="true">Cards</button>
+            <button class="view-button" id="matrix-view-button" type="button" aria-pressed="false">Review matrix</button>
+          </div>
+          <button class="text-button" id="download-matrix" type="button">Download matrix (.csv)</button>
+          <button class="text-button" id="clear-filters" type="button">Clear filters</button>
+        </div>
       </div>
 
       <div class="article-grid" id="article-grid" aria-live="polite"></div>
+      <div class="matrix-panel" id="matrix-panel" hidden>
+        <div class="matrix-intro">
+          <span aria-hidden="true">✿</span>
+          <p><strong>Working literature-review matrix:</strong> These concise notes organize the collection using your professor’s requested headings. Refine the limitations and highlights as you complete each full-text reading.</p>
+        </div>
+        <div class="matrix-scroll" tabindex="0" aria-label="Scrollable literature review matrix">
+          <table class="review-matrix">
+            <caption class="sr-only">Literature review matrix with objectives, methods, significance, gaps, highlights, and keywords</caption>
+            <thead>
+              <tr>
+                <th scope="col">Title/Authors/Year</th>
+                <th scope="col">Objective</th>
+                <th scope="col">Method/Hypothesis/Tools</th>
+                <th scope="col">Novelty/Significance</th>
+                <th scope="col">Limit/Gap</th>
+                <th scope="col">Highlights</th>
+                <th scope="col">Keywords</th>
+              </tr>
+            </thead>
+            <tbody id="matrix-body"></tbody>
+          </table>
+        </div>
+      </div>
       <div class="empty-state" id="empty-state" hidden>
         <span aria-hidden="true">❀</span>
         <h3>No articles matched that search</h3>
@@ -152,6 +182,15 @@
         <div><span>Sensors & methods</span><p class="article-method"></p></div>
       </div>
       <div class="relevance"><span>Why it matters</span><p></p></div>
+      <details class="review-notes">
+        <summary>Professor’s review fields</summary>
+        <div class="review-note-grid">
+          <div><span>Objective</span><p class="review-objective"></p></div>
+          <div><span>Limit / gap</span><p class="review-gap"></p></div>
+          <div><span>Highlights</span><p class="review-highlights"></p></div>
+          <div><span>Keywords</span><p class="review-keywords"></p></div>
+        </div>
+      </details>
       <div class="card-footer">
         <span class="access-badge"></span>
         <a class="article-link" target="_blank" rel="noopener noreferrer">Open article <span aria-hidden="true">↗</span></a>
