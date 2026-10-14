@@ -215,3 +215,15 @@ footer { padding-block: 38px; color: #eee5ec; background: var(--plum-dark); }
   html { scroll-behavior: auto; }
   *, *::before, *::after { transition: none !important; }
 }
+
+/* Professor-aligned seven-field literature review and contributor filter */
+.control-panel {grid-template-columns:minmax(220px,1.6fr) repeat(4,minmax(125px,1fr));}
+.contributor-chip {align-self:flex-start; margin:-8px 0 18px; padding:5px 12px; background:var(--lavender); border-radius:999px; font-size:.76rem; color:var(--plum-dark); font-weight:750;}
+.full-review-fields {display:grid; grid-template-columns:1fr 1fr; column-gap:19px; margin-bottom:16px; border-top:1px solid var(--line);}
+.full-review-fields > div {padding:16px 0; border-bottom:1px solid var(--line);}
+.full-review-fields > div:nth-child(3),.full-review-fields > div:nth-child(4) {grid-column:span 2;}
+.full-review-fields span {font-size:.68rem; font-weight:850; letter-spacing:.08em; text-transform:uppercase; color:var(--plum);}
+.full-review-fields p {margin:6px 0 0; color:#554d56; font-size:.88rem; line-height:1.55; overflow-wrap:anywhere;}
+.verification-note {margin:0 0 20px; color:var(--muted); font-style:italic; font-size:.76rem;}
+@media(max-width:1080px){.control-panel{grid-template-columns:repeat(2,minmax(0,1fr));}.search-field{grid-column:span 2;}}
+@media(max-width:680px){.control-panel{grid-template-columns:1fr;}.search-field{grid-column:auto;}.full-review-fields{grid-template-columns:1fr;}.full-review-fields>div:nth-child(3),.full-review-fields>div:nth-child(4){grid-column:auto;}}

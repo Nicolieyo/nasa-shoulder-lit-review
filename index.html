@@ -41,9 +41,9 @@
 
   <main>
     <section class="stats shell" aria-label="Library summary">
-      <article><strong id="article-count">30</strong><span>peer-reviewed articles</span></article>
+      <article><strong id="article-count">50</strong><span>literature entries</span></article>
       <article><strong id="priority-count">14</strong><span>read-first selections</span></article>
-      <article><strong id="access-count">29</strong><span>open-access sources</span></article>
+      <article><strong id="access-count">29</strong><span>linked Nicole sources</span></article>
       <article><strong>4</strong><span>research themes</span></article>
     </section>
 
@@ -65,6 +65,10 @@
         <label>
           <span>Topic</span>
           <select id="theme-filter"><option value="all">All topics</option></select>
+        </label>
+        <label>
+          <span>Contributor</span>
+          <select id="contributor-filter"><option value="all">All Articles</option><option value="Nicole">Nicole's Articles</option><option value="Christian">Christian's Articles</option></select>
         </label>
         <label>
           <span>Priority</span>
@@ -102,18 +106,18 @@
       <div class="matrix-panel" id="matrix-panel" hidden>
         <div class="matrix-intro">
           <span aria-hidden="true">✿</span>
-          <p><strong>Working literature-review matrix:</strong> These concise notes organize the collection using your professor’s requested headings. Refine the limitations and highlights as you complete each full-text reading.</p>
+          <p><strong>Working literature-review matrix:</strong> Every entry uses all seven columns from the professor’s chart. Nicole’s existing records have clearly flagged fields that still need full-text verification; Christian’s entries are transcribed from his chart.</p>
         </div>
         <div class="matrix-scroll" tabindex="0" aria-label="Scrollable literature review matrix">
           <table class="review-matrix">
             <caption class="sr-only">Literature review matrix with objectives, methods, significance, gaps, highlights, and keywords</caption>
             <thead>
               <tr>
-                <th scope="col">Title/Authors/Year</th>
+                <th scope="col">Title / Authors / Year</th>
                 <th scope="col">Objective</th>
-                <th scope="col">Method/Hypothesis/Tools</th>
-                <th scope="col">Novelty/Significance</th>
-                <th scope="col">Limit/Gap</th>
+                <th scope="col">Method / Hypothesis / Tools</th>
+                <th scope="col">Novelty / Significance</th>
+                <th scope="col">Limit / Gap</th>
                 <th scope="col">Highlights</th>
                 <th scope="col">Keywords</th>
               </tr>
@@ -163,7 +167,7 @@
 
   <footer>
     <div class="shell footer-inner">
-      <p><strong>Shoulder Movement Research Library</strong><br>Curated by Nicole Floyd</p>
+      <p><strong>Shoulder Movement Research Library</strong><br>Curated by Nicole Floyd &amp; Christian</p>
       <p>NASA-INSGC research · Purdue University Northwest</p>
     </div>
   </footer>
@@ -177,20 +181,16 @@
       <p class="article-theme"></p>
       <h3></h3>
       <p class="article-citation"></p>
-      <div class="article-details">
-        <div><span>Approach</span><p class="article-evidence"></p></div>
-        <div><span>Sensors & methods</span><p class="article-method"></p></div>
+      <p class="contributor-chip"></p>
+      <div class="full-review-fields">
+        <div><span>Objective</span><p class="review-objective"></p></div>
+        <div><span>Method / Hypothesis / Tools</span><p class="review-methods"></p></div>
+        <div><span>Novelty / Significance</span><p class="review-significance"></p></div>
+        <div><span>Limit / Gap</span><p class="review-gap"></p></div>
+        <div><span>Highlights</span><p class="review-highlights"></p></div>
+        <div><span>Keywords</span><p class="review-keywords"></p></div>
       </div>
-      <div class="relevance"><span>Why it matters</span><p></p></div>
-      <details class="review-notes">
-        <summary>Professor’s review fields</summary>
-        <div class="review-note-grid">
-          <div><span>Objective</span><p class="review-objective"></p></div>
-          <div><span>Limit / gap</span><p class="review-gap"></p></div>
-          <div><span>Highlights</span><p class="review-highlights"></p></div>
-          <div><span>Keywords</span><p class="review-keywords"></p></div>
-        </div>
-      </details>
+      <p class="verification-note"></p>
       <div class="card-footer">
         <span class="access-badge"></span>
         <a class="article-link" target="_blank" rel="noopener noreferrer">Open article <span aria-hidden="true">↗</span></a>

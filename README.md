@@ -1,34 +1,9 @@
-# Shoulder Movement Research Library
+# Shoulder Movement Research Library — Nicole & Christian
 
-A responsive literature-review website for Nicole Floyd's NASA-INSGC shoulder-movement research at Purdue University Northwest.
+Contains 50 entries: Nicole’s original 30 and 20 entries transcribed from Christian’s literature chart. All article cards and the matrix use the professor’s seven requested columns. Select All Articles, Nicole’s Articles or Christian’s Articles.
 
-## What the website includes
+## Scholarly verification
+Christian’s chart did not provide DOIs/URLs, and the papers have **not** been independently bibliographically verified. Their links are labeled **Find publication** and search Google Scholar, not purported direct article links. Nicole’s earlier article records remain linked, but some objective, novelty, limitation and highlights fields require paper-by-paper full-text review. This site explicitly flags these rather than inventing findings. Do not treat an entry labeled unverified as a checked citation.
 
-- 30 peer-reviewed articles on sEMG, IMUs, shoulder-movement classification, muscle activation, fatigue, and ergonomic assessment
-- Search, topic filters, priority filters, and sorting
-- Card and seven-column literature-review matrix views
-- Professor-requested objective, methods/tools, significance, limit/gap, highlights, and keyword fields
-- One-click CSV download of the currently filtered matrix
-- Direct DOI and publisher links
-- Personal “mark as read” tracking saved locally in the visitor's browser
-- Foundational RULA, REBA, Strain Index, OWAS, NIOSH, and OSHA resources
-- Responsive pastel floral design
-
-## Files
-
-- `index.html` — page structure and content
-- `styles.css` — colors, layout, responsive styling, and floral details
-- `data.js` — article and guidance data
-- `app.js` — search, filters, sorting, cards, review matrix, CSV export, and reading progress
-
-## Publish with GitHub Pages
-
-1. Upload all files to the root of the repository.
-2. Open the repository's **Settings**.
-3. Select **Pages** under **Code, planning, and automation**.
-4. Under **Build and deployment**, choose **Deploy from a branch**.
-5. Select the `main` branch and the `/ (root)` folder, then click **Save**.
-
-## Privacy
-
-This public website is designed for published literature only. Do not add participant information, consent materials, private IRB records, credentials, or raw research data.
+## Publishing
+Upload `index.html`, `styles.css`, `app.js`, `data.js`, `README.md`, `.nojekyll` to the root of the existing GitHub Pages repository, replacing files with matching names. Leave all other needed repository settings unchanged. Do not post participant/IRB/private data.

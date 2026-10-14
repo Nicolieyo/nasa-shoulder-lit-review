@@ -9,6 +9,7 @@ const els = {
   search: document.querySelector("#search"),
   theme: document.querySelector("#theme-filter"),
   priority: document.querySelector("#priority-filter"),
+  contributor: document.querySelector("#contributor-filter"),
   sort: document.querySelector("#sort-filter"),
   clear: document.querySelector("#clear-filters"),
   results: document.querySelector("#results-count"),
@@ -23,79 +24,15 @@ const readArticles = new Set(JSON.parse(localStorage.getItem(readKey) || "[]"));
 const slug = text => text.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
 let visibleArticles = [...articles];
 
-function objectiveFor(article) {
-  const type = article["Evidence type"].toLowerCase();
-  const theme = article.Theme.toLowerCase();
-  if (type.includes("systematic review") || type.includes("review")) {
-    return `Synthesize published evidence on ${theme}, including common methods, applications, and research limitations.`;
-  }
-  if (type.includes("validation")) {
-    return `Evaluate the validity and practical accuracy of ${article["Sensors / methods"].toLowerCase()}.`;
-  }
-  if (type.includes("classification") || type.includes("deep-learning")) {
-    return `Test whether ${article["Sensors / methods"].toLowerCase()} can distinguish upper-limb or shoulder movement classes.`;
-  }
-  if (type.includes("data paper")) {
-    return "Provide a reusable wearable-sensor dataset for studying shoulder rotation and fatigue estimation.";
-  }
-  if (type.includes("system")) {
-    return `Develop and evaluate an automated ${theme} system using ${article["Sensors / methods"].toLowerCase()}.`;
-  }
-  if (type.includes("reliability")) {
-    return `Identify reliable procedures for ${article["Sensors / methods"].toLowerCase()}.`;
-  }
-  return `Examine ${theme} using ${article["Sensors / methods"].toLowerCase()}.`;
-}
-
-function gapFor(article) {
-  const type = article["Evidence type"].toLowerCase();
-  const combined = `${article.Theme} ${article["Sensors / methods"]}`.toLowerCase();
-  if (type.includes("review")) {
-    return "Review-level evidence does not validate one specific NASA shoulder protocol or contribute new participant-level measurements.";
-  }
-  if (combined.includes("rula") || combined.includes("reba") || combined.includes("ergonomic")) {
-    return "Ergonomic scores are screening measures, not direct measures of muscle activation or fatigue; scoring can depend on posture and angle conventions.";
-  }
-  if (combined.includes("computer vision") || combined.includes("openpose")) {
-    return "Camera-based performance may not transfer directly to wearable sEMG/IMU workflows or controlled shoulder-movement protocols.";
-  }
-  if (combined.includes("fatigue")) {
-    return "Results may depend on the fatigue task, posture, participant group, and fatigue definition; transfer to other protocols requires validation.";
-  }
-  if (type.includes("classification") || type.includes("deep-learning")) {
-    return "Model performance may be dataset- and participant-specific; cross-subject, real-time, and external validation remain important.";
-  }
-  if (combined.includes("imu") || combined.includes("inertial")) {
-    return "Accuracy can depend on calibration, sensor placement, soft-tissue motion, drift, and the movement context tested.";
-  }
-  if (combined.includes("emg") || combined.includes("myoelectric")) {
-    return "EMG findings can vary with electrode placement, normalization, fatigue, and participant characteristics; broader validation is needed.";
-  }
-  return "The study context may limit generalization to the proposed NASA shoulder protocol; confirm the authors’ stated limitations in the full text.";
-}
-
-function highlightsFor(article) {
-  return `${article["Evidence type"]}. Most useful for: ${article["Best review section"]}. ${article.Access}.`;
-}
-
-function keywordsFor(article) {
-  const source = `${article.Theme}; ${article["Sensors / methods"]}`
-    .replace(/[–—/]/g, ";")
-    .split(";")
-    .map(word => word.trim())
-    .filter(Boolean);
-  return [...new Set(source)].slice(0, 6).join("; ");
-}
-
 function reviewFor(article) {
   return {
-    citation: `${article["Article title"]} — ${article["First author"]} (${article.Year})`,
-    objective: article.Objective || objectiveFor(article),
-    methods: article["Sensors / methods"],
-    significance: article["Why it matters for this project"],
-    gap: article["Limit / gap"] || gapFor(article),
-    highlights: article.Highlights || highlightsFor(article),
-    keywords: article.Keywords || keywordsFor(article)
+    citation: `${article["Article title"]} — ${article["Full authors"] || article["First author"]} (${article.Year})`,
+    objective: article.Objective || "Not yet recorded",
+    methods: article["Method / Hypothesis / Tools"] || "Not yet recorded",
+    significance: article["Novelty / Significance"] || "Not yet recorded",
+    gap: article["Limit / Gap"] || "Not yet recorded",
+    highlights: article.Highlights || "Not yet recorded",
+    keywords: article.Keywords || "Not yet recorded"
   };
 }
 
@@ -113,16 +50,20 @@ function renderArticles() {
   const query = els.search.value.trim().toLowerCase();
   const theme = els.theme.value;
   const priority = els.priority.value;
+  const contributor = els.contributor.value;
 
   let filtered = articles.filter(article => {
     const searchable = [
       article["Article title"], article["First author"], article.Theme,
       article["Evidence type"], article["Sensors / methods"],
-      article["Why it matters for this project"], article["Best review section"]
+      article["Why it matters for this project"], article["Best review section"],
+       article.Contributor, article.Objective, article["Method / Hypothesis / Tools"],
+       article["Novelty / Significance"], article["Limit / Gap"], article.Highlights, article.Keywords
     ].join(" ").toLowerCase();
     return (!query || searchable.includes(query))
       && (theme === "all" || article.Theme === theme)
-      && (priority === "all" || priorityCode(article.Priority) === priority);
+      && (priority === "all" || priorityCode(article.Priority) === priority)
+       && (contributor === "all" || article.Contributor === contributor);
   });
 
   filtered.sort((a, b) => {
@@ -145,19 +86,26 @@ function renderArticles() {
     node.querySelector(".priority-badge").classList.add(`priority-${pCode.toLowerCase()}`);
     node.querySelector(".article-theme").textContent = article.Theme;
     node.querySelector("h3").textContent = article["Article title"];
-    node.querySelector(".article-citation").textContent = `${article["First author"]} · ${article.Year}`;
-    node.querySelector(".article-evidence").textContent = article["Evidence type"];
-    node.querySelector(".article-method").textContent = article["Sensors / methods"];
-    node.querySelector(".relevance p").textContent = article["Why it matters for this project"];
+    node.querySelector(".article-citation").textContent = `${article["Full authors"] || article["First author"]} · ${article.Year}`;
+    node.querySelector(".contributor-chip").textContent = `${article.Contributor}'s Articles`;
     const review = reviewFor(article);
     node.querySelector(".review-objective").textContent = review.objective;
+    node.querySelector(".review-methods").textContent = review.methods;
+    node.querySelector(".review-significance").textContent = review.significance;
     node.querySelector(".review-gap").textContent = review.gap;
     node.querySelector(".review-highlights").textContent = review.highlights;
     node.querySelector(".review-keywords").textContent = review.keywords;
+    node.querySelector(".verification-note").textContent = article["Citation completeness"] || "";
     node.querySelector(".access-badge").textContent = article.Access;
     const link = node.querySelector(".article-link");
-    link.href = article["DOI / article link"];
-    link.setAttribute("aria-label", `Open ${article["Article title"]} in a new tab`);
+    if (article["DOI / article link"]) {
+      link.href = article["DOI / article link"];
+      link.setAttribute("aria-label", `Open ${article["Article title"]} in a new tab`);
+    } else {
+      link.href = `https://scholar.google.com/scholar?q=${encodeURIComponent(article["Article title"])}`;
+      link.textContent = "Find publication ↗";
+      link.setAttribute("aria-label", `Search Google Scholar for ${article["Article title"]}`);
+    }
 
     checkbox.checked = readArticles.has(id);
     card.classList.toggle("is-read", checkbox.checked);
@@ -189,19 +137,19 @@ function renderMatrix(filtered) {
   filtered.forEach(article => {
     const review = reviewFor(article);
     const row = document.createElement("tr");
-    const citationCell = appendCell(row, "Title/Authors/Year", "", "matrix-citation");
+    const citationCell = appendCell(row, "Title / Authors / Year", "", "matrix-citation");
     const link = document.createElement("a");
-    link.href = article["DOI / article link"];
+    link.href = article["DOI / article link"] || `https://scholar.google.com/scholar?q=${encodeURIComponent(article["Article title"])}`;
     link.target = "_blank";
     link.rel = "noopener noreferrer";
     link.textContent = article["Article title"];
     const citation = document.createElement("span");
-    citation.textContent = `${article["First author"]} · ${article.Year}`;
+    citation.textContent = `${article["Full authors"] || article["First author"]} · ${article.Year}`;
     citationCell.append(link, citation);
     appendCell(row, "Objective", review.objective);
-    appendCell(row, "Method/Hypothesis/Tools", review.methods);
-    appendCell(row, "Novelty/Significance", review.significance);
-    appendCell(row, "Limit/Gap", review.gap);
+    appendCell(row, "Method / Hypothesis / Tools", review.methods);
+    appendCell(row, "Novelty / Significance", review.significance);
+    appendCell(row, "Limit / Gap", review.gap);
     appendCell(row, "Highlights", review.highlights);
     appendCell(row, "Keywords", review.keywords, "matrix-keywords");
     els.matrixBody.append(row);
@@ -224,7 +172,7 @@ function csvValue(value) {
 }
 
 function downloadMatrix() {
-  const headings = ["Title/Authors/Year", "Objective", "Method/Hypothesis/Tools", "Novelty/Significance", "Limit/Gap", "Highlights", "Keywords"];
+  const headings = ["Title / Authors / Year", "Objective", "Method / Hypothesis / Tools", "Novelty / Significance", "Limit / Gap", "Highlights", "Keywords"];
   const rows = visibleArticles.map(article => {
     const review = reviewFor(article);
     return [review.citation, review.objective, review.methods, review.significance, review.gap, review.highlights, review.keywords];
@@ -279,13 +227,14 @@ function initialize() {
 
   document.querySelector("#article-count").textContent = articles.length;
   document.querySelector("#priority-count").textContent = articles.filter(a => priorityCode(a.Priority) === "A").length;
-  document.querySelector("#access-count").textContent = articles.filter(a => !a.Access.toLowerCase().includes("needed")).length;
+  document.querySelector("#access-count").textContent = articles.filter(a => a.Contributor === "Nicole" && !!a["DOI / article link"]).length;
 
-  [els.search, els.theme, els.priority, els.sort].forEach(input => input.addEventListener("input", renderArticles));
+  [els.search, els.theme, els.contributor, els.priority, els.sort].forEach(input => input.addEventListener("input", renderArticles));
   els.clear.addEventListener("click", () => {
     els.search.value = "";
     els.theme.value = "all";
     els.priority.value = "all";
+    els.contributor.value = "all";
     els.sort.value = "priority";
     renderArticles();
     els.search.focus();
